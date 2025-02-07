@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Contas</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #1a1a1a;
+            --bg-secondary: #2d2d2d;
+            --text-primary: #ffffff;
+            --text-secondary: #b3b3b3;
+            --accent-color: #4CAF50;
+            --accent-hover: #45a049;
+            --danger-color: #ff4444;
+            --danger-hover: #cc0000;
+            --border-color: #404040;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            padding: 20px;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1, h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: var(--text-primary);
+        }
+
+        form {
+            background-color: var(--bg-secondary);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            margin-bottom: 30px;
+            border: 1px solid var(--border-color);
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: var(--text-secondary);
+        }
+
+        input, select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+        }
+
+        button {
+            background-color: var(--accent-color);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: var(--accent-hover);
+        }
+
+        .tabelas {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .tabela-container {
+            background-color: var(--bg-secondary);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            border: 1px solid var(--border-color);
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            background-color: var(--bg-primary);
+            color: var(--text-secondary);
+        }
+
+        tr:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        .btn-remover {
+            background-color: var(--danger-color);
+            color: white;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-remover:hover {
+            background-color: var(--danger-hover);
+        }
+
+        td:nth-child(2) {
+            color: var(--accent-color);
+            font-weight: bold;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @media (max-width: 768px) {
+            .tabelas {
+                grid-template-columns: 1fr;
+            }
+            
+            body {
+                padding: 10px;
+            }
+            
+            .tabela-container {
+                overflow-x: auto;
+            }
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-primary);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--text-secondary);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center mb-30">Sistema de Contas</h1>
+        
+        <form id="contaForm" class="card mb-30">
+            <div class="mb-15">
+                <label class="form-label" for="descricao">Descrição</label>
+                <input class="form-control" type="text" id="descricao" required>
+            </div>
+            
+            <div class="mb-15">
+                <label class="form-label" for="valor">Valor</label>
+                <input class="form-control" type="number" id="valor" step="0.01" required>
+            </div>
+            
+            <div class="mb-15">
+                <label class="form-label" for="vencimento">Vencimento</label>
+                <input class="form-control" type="date" id="vencimento" required>
+            </div>
+            
+            <div class="mb-15">
+                <label class="form-label" for="tipo">Tipo</label>
+                <select class="form-control" id="tipo" required>
+                    <option value="pagar">Conta a Pagar</option>
+                    <option value="receber">Conta a Receber</option>
+                </select>
+            </div>
+            
+            <button type="submit" class="btn btn-primary w-100">Adicionar Conta</button>
+        </form>
+
+        <div class="resumo grid mb-30">
+            <div class="card">
+                <h3 class="text-center mb-15">Resumo Contas a Pagar</h3>
+                <div class="resumo-valores">
+                    <div>
+                        <span class="label">Total:</span>
+                        <span id="totalPagar" class="valor">R$ 0,00</span>
+                    </div>
+                    <div>
+                        <span class="label">Pendente:</span>
+                        <span id="pendentePagar" class="valor-pendente">R$ 0,00</span>
+                    </div>
+                    <div>
+                        <span class="label">Pago:</span>
+                        <span id="pagoPagar" class="valor-pago">R$ 0,00</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h3 class="text-center mb-15">Resumo Contas a Receber</h3>
+                <div class="resumo-valores">
+                    <div>
+                        <span class="label">Total:</span>
+                        <span id="totalReceber" class="valor">R$ 0,00</span>
+                    </div>
+                    <div>
+                        <span class="label">Pendente:</span>
+                        <span id="pendenteReceber" class="valor-pendente">R$ 0,00</span>
+                    </div>
+                    <div>
+                        <span class="label">Recebido:</span>
+                        <span id="pagoReceber" class="valor-pago">R$ 0,00</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid">
+            <div class="card fade-in">
+                <h2 class="text-center mb-30">Contas a Pagar</h2>
+                <div class="overflow-x">
+                    <table id="tabelaPagar">
+                        <thead>
+                            <tr>
+                                <th>Descrição</th>
+                                <th>Valor</th>
+                                <th>Vencimento</th>
+                                <th>Status</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="card fade-in">
+                <h2 class="text-center mb-30">Contas a Receber</h2>
+                <div class="overflow-x">
+                    <table id="tabelaReceber">
+                        <thead>
+                            <tr>
+                                <th>Descrição</th>
+                                <th>Valor</th>
+                                <th>Vencimento</th>
+                                <th>Status</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html> 
