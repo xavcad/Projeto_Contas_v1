@@ -281,4 +281,84 @@ td:nth-child(2) {
 .btn-outline:hover {
     background: var(--accent-color);
     color: white;
-} 
+}
+
+/* Dashboard */
+.dashboard {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.indicadores {
+    display: grid;
+    gap: 15px;
+}
+
+.indicador {
+    background: var(--bg-primary);
+    padding: 15px;
+    border-radius: var(--radius);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.indicador-label {
+    color: var(--text-secondary);
+    font-size: 0.9em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.indicador-valor {
+    font-size: 1.2em;
+    font-weight: 600;
+    color: var(--accent-color);
+}
+
+/* Melhorar responsividade dos gráficos */
+canvas {
+    max-height: 300px;
+    width: 100% !important;
+}
+
+/* Adicionar loading state */
+.loading {
+    position: relative;
+    pointer-events: none;
+}
+
+.loading::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius);
+}
+
+/* Melhorar feedback de hover */
+.btn:active {
+    transform: translateY(1px);
+}
+
+/* Adicionar tooltips */
+[data-tooltip] {
+    position: relative;
+}
+
+[data-tooltip]:hover::before {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--bg-primary);
+    padding: 5px 10px;
+    border-radius: var(--radius);
+    font-size: 0.8em;
+    white-space: nowrap;
+}

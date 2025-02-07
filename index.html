@@ -183,11 +183,38 @@
             background: var(--text-secondary);
         }
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <div class="container">
         <h1 class="text-center mb-30">Sistema de Contas</h1>
         
+        <div class="dashboard grid mb-30">
+            <div class="card">
+                <h3 class="text-center mb-15">Distribuição de Contas</h3>
+                <canvas id="graficoDistribuicao"></canvas>
+            </div>
+            
+            <div class="card">
+                <h3 class="text-center mb-15">Evolução Mensal</h3>
+                <canvas id="graficoEvolucao"></canvas>
+            </div>
+            
+            <div class="card">
+                <h3 class="text-center mb-15">Indicadores</h3>
+                <div class="indicadores">
+                    <div class="indicador">
+                        <span class="indicador-label">Saldo Atual</span>
+                        <span id="saldoAtual" class="indicador-valor">R$ 0,00</span>
+                    </div>
+                    <div class="indicador">
+                        <span class="indicador-label">Previsão Mensal</span>
+                        <span id="previsaoMensal" class="indicador-valor">R$ 0,00</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="filtros card mb-30">
             <h3 class="text-center mb-15">Filtros</h3>
             <div class="grid-filtros">
@@ -216,6 +243,14 @@
                         <option value="pago">Pago</option>
                     </select>
                 </div>
+            </div>
+            <div class="btn-group">
+                <button class="btn btn-outline" onclick="presenter.exportarPDF()">
+                    Exportar PDF
+                </button>
+                <button class="btn btn-outline" onclick="presenter.exportarExcel()">
+                    Exportar Excel
+                </button>
             </div>
             <button class="btn btn-primary" onclick="presenter.aplicarFiltros()">Aplicar Filtros</button>
         </div>

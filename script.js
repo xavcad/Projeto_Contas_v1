@@ -54,6 +54,8 @@ class ContaView {
             receber: { total: 0, pago: 0, pendente: 0 }
         };
         this.carregarCategorias();
+        this.dashboard = new DashboardView();
+        this.atualizarGraficos();
     }
 
     async carregarCategorias() {
@@ -92,6 +94,49 @@ class ContaView {
         document.getElementById('pendenteReceber').textContent = this.formatarMoeda(this.totalizadores.receber.pendente);
     }
 
+    atualizarGraficos() {
+        // Atualizar gráfico de distribuição
+        this.dashboard.graficoPizza.data.datasets[0].data = [
+            this.totalizadores.pagar.total,
+            this.totalizadores.receber.total
+        ];
+        this.dashboard.graficoPizza.update();
+
+        // Atualizar gráfico de evolução
+        const meses = this.obterUltimosMeses(6);
+        this.dashboard.graficoLinha.data.labels = meses.map(m => m.nome);
+        this.dashboard.graficoLinha.data.datasets[0].data = meses.map(m => m.saldo);
+        this.dashboard.graficoLinha.update();
+
+        // Atualizar indicadores
+        document.getElementById('saldoAtual').textContent = 
+            this.formatarMoeda(this.totalizadores.receber.total - this.totalizadores.pagar.total);
+        
+        document.getElementById('previsaoMensal').textContent = 
+            this.formatarMoeda(this.calcularPrevisaoMensal());
+    }
+
+    obterUltimosMeses(quantidade) {
+        const meses = [];
+        const hoje = new Date();
+        
+        for (let i = quantidade - 1; i >= 0; i--) {
+            const data = new Date(hoje.getFullYear(), hoje.getMonth() - i, 1);
+            meses.push({
+                nome: data.toLocaleDateString('pt-BR', { month: 'short', year: '2-digit' }),
+                saldo: Math.random() * 10000 - 5000 // Exemplo: dados aleatórios
+            });
+        }
+        
+        return meses;
+    }
+
+    calcularPrevisaoMensal() {
+        const receitaMedia = this.totalizadores.receber.total / 6; // média últimos 6 meses
+        const despesaMedia = this.totalizadores.pagar.total / 6;
+        return receitaMedia - despesaMedia;
+    }
+
     adicionarConta(conta) {
         const tabela = conta.tipo === 'pagar' ? this.tabelaPagar : this.tabelaReceber;
         const row = tabela.insertRow();
@@ -112,6 +157,7 @@ class ContaView {
                 <button class="btn btn-danger" onclick="presenter.removerConta(this)">✕</button>
             </td>
         `;
+        this.atualizarGraficos();
     }
 
     limparTabelas() {
@@ -175,6 +221,7 @@ class ContaPresenter {
         }
         
         this.view.atualizarTotalizadores();
+        this.view.atualizarGraficos();
     }
 
     removerConta(button) {
@@ -192,6 +239,7 @@ class ContaPresenter {
         
         row.remove();
         this.view.atualizarTotalizadores();
+        this.view.atualizarGraficos();
     }
 
     async aplicarFiltros() {
@@ -212,4 +260,122 @@ class ContaPresenter {
     }
 }
 
-const presenter = new ContaPresenter(); 
+const presenter = new ContaPresenter();
+
+class DashboardView {
+    constructor() {
+        Chart.defaults.color = '#cccccc';
+        Chart.defaults.font.family = "'Segoe UI', Arial, sans-serif";
+
+        this.graficoPizza = new Chart(
+            document.getElementById('graficoDistribuicao'),
+            {
+                type: 'doughnut',
+                data: {
+                    labels: ['A Pagar', 'A Receber'],
+                    datasets: [{
+                        data: [0, 0],
+                        backgroundColor: [
+                            'var(--danger-color)',
+                            'var(--success-color)'
+                        ],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                color: 'var(--text-primary)',
+                                padding: 20,
+                                font: {
+                                    size: 12
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        );
+
+        this.graficoLinha = new Chart(
+            document.getElementById('graficoEvolucao'),
+            {
+                type: 'line',
+                data: {
+                    labels: [],
+                    datasets: [{
+                        label: 'Fluxo de Caixa',
+                        data: [],
+                        borderColor: 'var(--accent-color)',
+                        tension: 0.4,
+                        fill: true,
+                        backgroundColor: 'rgba(140, 198, 63, 0.1)'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            },
+                            ticks: {
+                                callback: value => this.formatarMoeda(value)
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            }
+                        }
+                    }
+                }
+            }
+        );
+    }
+
+    formatarMoeda(valor) {
+        return new Intl.NumberFormat('pt-BR', {
+            style: 'currency',
+            currency: 'BRL',
+            notation: 'compact'
+        }).format(valor);
+    }
+}
+
+class ExportView {
+    gerarPDF() {
+        const doc = new jsPDF();
+        
+        // Adicionar cabeçalho
+        doc.setFontSize(20);
+        doc.text('Relatório Financeiro', 105, 15, { align: 'center' });
+        
+        // Adicionar data
+        doc.setFontSize(10);
+        doc.text(`Gerado em: ${new Date().toLocaleDateString()}`, 105, 25, { align: 'center' });
+        
+        // Adicionar tabelas
+        let y = 40;
+        ['pagar', 'receber'].forEach(tipo => {
+            doc.setFontSize(14);
+            doc.text(`Contas a ${tipo}`, 14, y);
+            
+            // ... lógica para adicionar dados da tabela
+            
+            y += 80;
+        });
+        
+        doc.save('relatorio-financeiro.pdf');
+    }
+} 
