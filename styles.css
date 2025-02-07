@@ -181,4 +181,33 @@ td:nth-child(2) {
 
 ::-webkit-scrollbar-thumb:hover {
     background: var(--text-secondary);
+}
+
+/* Adicionar ao CSS existente */
+.grid-filtros {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+}
+
+.filtros {
+    background: var(--bg-secondary);
+    padding: var(--spacing);
+    border-radius: var(--radius);
+}
+
+.btn-group {
+    display: flex;
+    gap: 10px;
+}
+
+.btn-outline {
+    background: transparent;
+    border: 1px solid var(--accent-color);
+    color: var(--accent-color);
+}
+
+.btn-outline:hover {
+    background: var(--accent-color);
+    color: white;
 } 

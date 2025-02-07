@@ -22,6 +22,26 @@ class ContaModel {
             throw error;
         }
     }
+
+    static async buscarCategorias() {
+        try {
+            const response = await fetch('/api/categorias.php');
+            return await response.json();
+        } catch (error) {
+            console.error('Erro ao buscar categorias:', error);
+            throw error;
+        }
+    }
+
+    static async filtrarContas(filtros) {
+        try {
+            const response = await fetch('/api/contas.php?' + new URLSearchParams(filtros));
+            return await response.json();
+        } catch (error) {
+            console.error('Erro ao filtrar contas:', error);
+            throw error;
+        }
+    }
 }
 
 class ContaView {
@@ -33,6 +53,22 @@ class ContaView {
             pagar: { total: 0, pago: 0, pendente: 0 },
             receber: { total: 0, pago: 0, pendente: 0 }
         };
+        this.carregarCategorias();
+    }
+
+    async carregarCategorias() {
+        try {
+            const categorias = await ContaModel.buscarCategorias();
+            const selectCategorias = document.getElementById('categoria');
+            const selectFiltro = document.getElementById('filtroCategoria');
+            
+            categorias.forEach(cat => {
+                selectCategorias.innerHTML += `<option value="${cat.id}">${cat.nome}</option>`;
+                selectFiltro.innerHTML += `<option value="${cat.id}">${cat.nome}</option>`;
+            });
+        } catch (error) {
+            console.error('Erro ao carregar categorias:', error);
+        }
     }
 
     limparFormulario() {
@@ -76,6 +112,20 @@ class ContaView {
                 <button class="btn btn-danger" onclick="presenter.removerConta(this)">✕</button>
             </td>
         `;
+    }
+
+    limparTabelas() {
+        this.tabelaPagar.innerHTML = '';
+        this.tabelaReceber.innerHTML = '';
+        this.resetTotalizadores();
+    }
+
+    resetTotalizadores() {
+        this.totalizadores = {
+            pagar: { total: 0, pago: 0, pendente: 0 },
+            receber: { total: 0, pago: 0, pendente: 0 }
+        };
+        this.atualizarTotalizadores();
     }
 }
 
@@ -142,6 +192,23 @@ class ContaPresenter {
         
         row.remove();
         this.view.atualizarTotalizadores();
+    }
+
+    async aplicarFiltros() {
+        const filtros = {
+            dataInicio: document.getElementById('filtroDataInicio').value,
+            dataFim: document.getElementById('filtroDataFim').value,
+            categoria: document.getElementById('filtroCategoria').value,
+            status: document.getElementById('filtroStatus').value
+        };
+
+        try {
+            this.view.limparTabelas();
+            const contas = await ContaModel.filtrarContas(filtros);
+            contas.forEach(conta => this.view.adicionarConta(conta));
+        } catch (error) {
+            alert('Erro ao filtrar contas');
+        }
     }
 }
 

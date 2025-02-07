@@ -188,6 +188,38 @@
     <div class="container">
         <h1 class="text-center mb-30">Sistema de Contas</h1>
         
+        <div class="filtros card mb-30">
+            <h3 class="text-center mb-15">Filtros</h3>
+            <div class="grid-filtros">
+                <div class="mb-15">
+                    <label class="form-label" for="filtroDataInicio">Data Início</label>
+                    <input class="form-control" type="date" id="filtroDataInicio">
+                </div>
+                
+                <div class="mb-15">
+                    <label class="form-label" for="filtroDataFim">Data Fim</label>
+                    <input class="form-control" type="date" id="filtroDataFim">
+                </div>
+                
+                <div class="mb-15">
+                    <label class="form-label" for="filtroCategoria">Categoria</label>
+                    <select class="form-control" id="filtroCategoria">
+                        <option value="">Todas</option>
+                    </select>
+                </div>
+                
+                <div class="mb-15">
+                    <label class="form-label" for="filtroStatus">Status</label>
+                    <select class="form-control" id="filtroStatus">
+                        <option value="">Todos</option>
+                        <option value="pendente">Pendente</option>
+                        <option value="pago">Pago</option>
+                    </select>
+                </div>
+            </div>
+            <button class="btn btn-primary" onclick="presenter.aplicarFiltros()">Aplicar Filtros</button>
+        </div>
+
         <form id="contaForm" class="card mb-30">
             <div class="mb-15">
                 <label class="form-label" for="descricao">Descrição</label>
@@ -209,6 +241,13 @@
                 <select class="form-control" id="tipo" required>
                     <option value="pagar">Conta a Pagar</option>
                     <option value="receber">Conta a Receber</option>
+                </select>
+            </div>
+            
+            <div class="mb-15">
+                <label class="form-label" for="categoria">Categoria</label>
+                <select class="form-control" id="categoria" required>
+                    <option value="">Selecione uma categoria</option>
                 </select>
             </div>
             
