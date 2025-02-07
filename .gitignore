@@ -1,1 +1,17 @@
- 
+# Arquivos de sistema
+.DS_Store
+Thumbs.db
+
+# Arquivos de configuração
+api/conexao.php
+
+# Arquivos de ambiente
+.env
+
+# Arquivos de teste
+teste_conexao.php
+
+# Dependências e builds
+/node_modules
+/vendor
+/dist 
