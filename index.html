@@ -190,26 +190,28 @@
         <h1 class="text-center mb-30">Sistema de Contas</h1>
         
         <div class="dashboard grid mb-30">
-            <div class="card">
+            <div class="glass-card fade-slide-in">
                 <h3 class="text-center mb-15">Distribuição de Contas</h3>
                 <canvas id="graficoDistribuicao"></canvas>
             </div>
             
-            <div class="card">
+            <div class="neo-card fade-slide-in">
                 <h3 class="text-center mb-15">Evolução Mensal</h3>
                 <canvas id="graficoEvolucao"></canvas>
             </div>
             
-            <div class="card">
-                <h3 class="text-center mb-15">Indicadores</h3>
-                <div class="indicadores">
-                    <div class="indicador">
-                        <span class="indicador-label">Saldo Atual</span>
-                        <span id="saldoAtual" class="indicador-valor">R$ 0,00</span>
-                    </div>
-                    <div class="indicador">
-                        <span class="indicador-label">Previsão Mensal</span>
-                        <span id="previsaoMensal" class="indicador-valor">R$ 0,00</span>
+            <div class="gradient-border fade-slide-in">
+                <div class="card-content">
+                    <h3 class="text-center mb-15">Indicadores</h3>
+                    <div class="indicadores">
+                        <div class="indicador">
+                            <span class="indicador-label">Saldo Atual</span>
+                            <span id="saldoAtual" class="indicador-valor">R$ 0,00</span>
+                        </div>
+                        <div class="indicador">
+                            <span class="indicador-label">Previsão Mensal</span>
+                            <span id="previsaoMensal" class="indicador-valor">R$ 0,00</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -245,11 +247,11 @@
                 </div>
             </div>
             <div class="btn-group">
-                <button class="btn btn-outline" onclick="presenter.exportarPDF()">
-                    Exportar PDF
+                <button class="btn-modern" onclick="presenter.exportarPDF()">
+                    <span>Exportar PDF</span>
                 </button>
-                <button class="btn btn-outline" onclick="presenter.exportarExcel()">
-                    Exportar Excel
+                <button class="btn-modern" onclick="presenter.exportarExcel()">
+                    <span>Exportar Excel</span>
                 </button>
             </div>
             <button class="btn btn-primary" onclick="presenter.aplicarFiltros()">Aplicar Filtros</button>
@@ -286,49 +288,55 @@
                 </select>
             </div>
             
-            <button type="submit" class="btn btn-primary w-100">Adicionar Conta</button>
+            <button type="submit" class="btn-modern w-100">
+                <span>Adicionar Conta</span>
+            </button>
         </form>
 
         <div class="resumo grid mb-30">
-            <div class="card">
-                <h3 class="text-center mb-15">Resumo Contas a Pagar</h3>
-                <div class="resumo-valores">
-                    <div>
-                        <span class="label">Total:</span>
-                        <span id="totalPagar" class="valor">R$ 0,00</span>
-                    </div>
-                    <div>
-                        <span class="label">Pendente:</span>
-                        <span id="pendentePagar" class="valor-pendente">R$ 0,00</span>
-                    </div>
-                    <div>
-                        <span class="label">Pago:</span>
-                        <span id="pagoPagar" class="valor-pago">R$ 0,00</span>
+            <div class="gradient-border fade-slide-in">
+                <div class="card-content">
+                    <h3 class="text-center mb-15">Resumo Contas a Pagar</h3>
+                    <div class="resumo-valores">
+                        <div>
+                            <span class="label">Total:</span>
+                            <span id="totalPagar" class="valor">R$ 0,00</span>
+                        </div>
+                        <div>
+                            <span class="label">Pendente:</span>
+                            <span id="pendentePagar" class="valor-pendente">R$ 0,00</span>
+                        </div>
+                        <div>
+                            <span class="label">Pago:</span>
+                            <span id="pagoPagar" class="valor-pago">R$ 0,00</span>
+                        </div>
                     </div>
                 </div>
             </div>
             
-            <div class="card">
-                <h3 class="text-center mb-15">Resumo Contas a Receber</h3>
-                <div class="resumo-valores">
-                    <div>
-                        <span class="label">Total:</span>
-                        <span id="totalReceber" class="valor">R$ 0,00</span>
-                    </div>
-                    <div>
-                        <span class="label">Pendente:</span>
-                        <span id="pendenteReceber" class="valor-pendente">R$ 0,00</span>
-                    </div>
-                    <div>
-                        <span class="label">Recebido:</span>
-                        <span id="pagoReceber" class="valor-pago">R$ 0,00</span>
+            <div class="gradient-border fade-slide-in">
+                <div class="card-content">
+                    <h3 class="text-center mb-15">Resumo Contas a Receber</h3>
+                    <div class="resumo-valores">
+                        <div>
+                            <span class="label">Total:</span>
+                            <span id="totalReceber" class="valor">R$ 0,00</span>
+                        </div>
+                        <div>
+                            <span class="label">Pendente:</span>
+                            <span id="pendenteReceber" class="valor-pendente">R$ 0,00</span>
+                        </div>
+                        <div>
+                            <span class="label">Recebido:</span>
+                            <span id="pagoReceber" class="valor-pago">R$ 0,00</span>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
         <div class="grid">
-            <div class="card fade-in">
+            <div class="glass-card fade-slide-in reveal">
                 <h2 class="text-center mb-30">Contas a Pagar</h2>
                 <div class="overflow-x">
                     <table id="tabelaPagar">
@@ -346,7 +354,7 @@
                 </div>
             </div>
 
-            <div class="card fade-in">
+            <div class="neo-card fade-slide-in reveal">
                 <h2 class="text-center mb-30">Contas a Receber</h2>
                 <div class="overflow-x">
                     <table id="tabelaReceber">

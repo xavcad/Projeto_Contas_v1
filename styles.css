@@ -5,19 +5,27 @@
 }
 
 :root {
-    /* Cores baseadas no relatório */
-    --bg-primary: #1c1c1c;
-    --bg-secondary: #242424;
-    --text-primary: #ffffff;
-    --text-secondary: #cccccc;
-    --accent-color: #8cc63f; /* Verde EMSERH */
+    /* Cores base atualizadas */
+    --bg-primary: #0f172a;
+    --bg-secondary: #1e293b;
+    --glass-bg: rgba(30, 41, 59, 0.7);
+    --border-light: rgba(255, 255, 255, 0.1);
+    --shadow-color: rgba(0, 0, 0, 0.3);
+    --text-primary: #f8fafc;
+    --text-secondary: #94a3b8;
+    --accent-color: #8cc63f;
     --accent-hover: #7ab52f;
-    --danger-color: #d93025;
-    --danger-hover: #c41e12;
-    --border-color: #333333;
+    --danger-color: #ef4444;
+    --success-color: #22c55e;
+    
+    /* Efeitos */
+    --glass-blur: blur(12px);
+    --card-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+    --neumorphic-shadow: 
+        8px 8px 16px var(--shadow-color),
+        -8px -8px 16px var(--border-light);
     --header-bg: #1a1a1a;
     --table-header: #2a2a2a;
-    --success-color: #8cc63f;
     --radius: 4px;
     --shadow: 0 2px 4px rgba(0,0,0,0.3);
 }
@@ -361,4 +369,135 @@ canvas {
     border-radius: var(--radius);
     font-size: 0.8em;
     white-space: nowrap;
+}
+
+/* Efeito Glassmorphism */
+.glass-card {
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--border-light);
+    box-shadow: var(--card-shadow);
+}
+
+/* Efeito Neumorphism */
+.neo-card {
+    background: var(--bg-secondary);
+    box-shadow: var(--neumorphic-shadow);
+    border-radius: 16px;
+}
+
+/* Animações suaves */
+.fade-slide-in {
+    animation: fadeSlideIn 0.5s ease-out;
+}
+
+@keyframes fadeSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Gradientes modernos */
+.gradient-bg {
+    background: linear-gradient(
+        135deg,
+        var(--bg-secondary) 0%,
+        var(--bg-primary) 100%
+    );
+}
+
+/* Botões modernos */
+.btn-modern {
+    background: var(--accent-color);
+    border: none;
+    padding: 12px 24px;
+    border-radius: 12px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-modern::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.2),
+        transparent
+    );
+    transition: 0.5s;
+}
+
+.btn-modern:hover::before {
+    left: 100%;
+}
+
+/* Cards com bordas gradiente */
+.gradient-border {
+    position: relative;
+    background: var(--bg-secondary);
+    border-radius: 16px;
+    padding: 1px;
+}
+
+.gradient-border::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 16px;
+    padding: 2px;
+    background: linear-gradient(45deg, var(--accent-color), var(--success-color));
+    -webkit-mask: 
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+    mask: 
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+}
+
+/* Scroll suave */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Scroll personalizado */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-primary);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--accent-color);
+    border-radius: 5px;
+    border: 3px solid var(--bg-primary);
+}
+
+/* Efeito de revelação no scroll */
+.reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.8s ease;
+}
+
+.reveal.active {
+    opacity: 1;
+    transform: translateY(0);
 }

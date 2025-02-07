@@ -19,7 +19,7 @@
  * password = 'DataContas102030';
  * 
  * Passo 3
- * 
+ * Quero implementar recursos modernos de aparencia como tema escuro e as tecnologias de ultima geração
  * Agora vamos melhorar o estilo do site colocando um CSS básico, mas dark mode.
  */
 

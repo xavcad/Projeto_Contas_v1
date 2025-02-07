@@ -1,0 +1,16 @@
+# Proteger arquivos de configuração
+<FilesMatch "^(config\.php|conexao\.php)$">
+    Order Allow,Deny
+    Deny from all
+</FilesMatch>
+
+# Habilitar CORS para a API
+<IfModule mod_headers.c>
+    Header set Access-Control-Allow-Origin "*"
+    Header set Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS"
+    Header set Access-Control-Allow-Headers "Content-Type"
+</IfModule>
+
+# Redirecionar erros
+ErrorDocument 404 /404.html
+ErrorDocument 500 /500.html 
